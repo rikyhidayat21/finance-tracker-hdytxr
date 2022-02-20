@@ -5,7 +5,10 @@ class Stock < ApplicationRecord
                                   secret_token: Rails.application.credentials.iex_client[:sandbox_secret_key], 
                                   endpoint: 'https://sandbox.iexapis.com/v1'
     )
-    
-    new(ticker: ticker_symbol, name: client.company(ticker_symbol).company_name, price: client.price(ticker_symbol))
+    begin  
+      new(ticker: ticker_symbol, name: client.company(ticker_symbol).company_name, price: client.price(ticker_symbol))
+    rescue => exception
+      nil
+    end
   end
 end
